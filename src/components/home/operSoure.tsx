@@ -10,7 +10,7 @@ export default function OpenSource() {
 
       <Link
         className="flex items-center gap-2.5 w-max text-foreground rounded-base border-2 border-border bg-background dark:bg-secondary-background md:px-10 px-4 md:py-3 py-2 md:text-[22px] text-base shadow-shadow transition-all hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none"
-        href={"/docs"}
+        href={"/https://github.com/sahilworkdev/fydBox"}
       >
         Contribute to the project
         <Github className="md:size-[30px] size-5" />

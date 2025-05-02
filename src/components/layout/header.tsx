@@ -7,6 +7,7 @@ import { truncateAddress } from "@/lib/utils";
 import { useEffect } from "react";
 import { deleteCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Header() {
   const { address, isConnected, connectWallet, disconnectWallet } = useWallet();
@@ -27,10 +28,12 @@ export default function Header() {
       <div className="mx-auto flex w-[1300px] text-foreground max-w-full items-center justify-between">
         <div className="flex items-center xl:gap-10 gap-10">
           <Link
-            className="text-[22px] px-2 rounded-base flex bg-main text-main-foreground border-2 border-black gap-1 items-center justify-center font-heading"
+            className="text-[22px] px-2 rounded-base flex bg-white text-main-foreground border-2 border-black gap-1 items-center justify-center font-heading"
             href={"/"}
           >
-            <Mail className="size-5" /> <span>FydBox</span>
+            {/* <Mail className="size-5" /> */}
+            <Image src='/email.gif' alt="email" width={40} height={40} />
+             <span>FydBox</span>
           </Link>
 
           {/* <div className="items-center text-base font-base xl:gap-10 lg:flex gap-10 hidden">
@@ -71,7 +74,7 @@ export default function Header() {
                   {truncateAddress(address || "")}
                 </span>
                 <Button
-                  variant="reverse"
+                  variant="neutral"
                   size="sm"
                   onClick={() => {
                     disconnectWallet();
@@ -82,7 +85,7 @@ export default function Header() {
                 </Button>
               </div>
             ) : (
-              <Button onClick={connectWallet} variant="reverse" size="sm">
+              <Button onClick={connectWallet} variant="default" size="sm">
                 Connect Wallet
               </Button>
             )}
