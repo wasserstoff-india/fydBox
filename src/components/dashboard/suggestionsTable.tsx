@@ -186,14 +186,14 @@ export default function SuggestionsTable() {
                 </TableRow>
               ))
             ) : (
-                <TableRow>
-                <TableCell colSpan={5} className="text-center py-20">
-                  <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground">
+              <TableRow>
+                <TableCell colSpan={5} className="h-[600px] p-0">
+                  <div className="h-full w-full flex flex-col items-center justify-center gap-2 text-muted-foreground">
                     <span className="text-lg font-medium">
                       No suggestions found
                     </span>
                     <Link href="/dashboard/create">
-                      <Button  className="mt-2 cursor-pointer">
+                      <Button className="mt-2 cursor-pointer">
                         Create your first suggestion
                       </Button>
                     </Link>

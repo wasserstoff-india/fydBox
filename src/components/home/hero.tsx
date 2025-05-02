@@ -26,7 +26,7 @@ export default function Hero() {
         <div className="flex flex-col items-center text-center">
           <h1 className="leading-normal text-3xl md:text-6xl font-bold">
             Collect Honest Suggestions — Securely, <br />{" "}
-            <span className="relative px-2 sm:mr-2 mr-0 md:[&_svg]:size-[45px] sm:[&_svg]:size-7 bg-main/50 rounded-base border-2 border-border/40 dark:border-border/70">
+            <span className="relative px-2 sm:mr-2 mr-0 md:[&_svg]:size-[45px] sm:[&_svg]:size-7 bg-main/30 rounded-base border-2 border-border/40 dark:border-border/70">
               Anonymously
               <Star9
                 className="absolute sm:block hidden md:-bottom-4 md:-right-5 -bottom-2.5 -right-2.5"
