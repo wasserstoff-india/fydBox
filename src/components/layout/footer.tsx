@@ -6,7 +6,13 @@ export default function Footer() {
           © {new Date().getFullYear()} Suggestion Box. All rights reserved.
         </p>
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
-          <p>{new Date().toLocaleString()}</p>
+          <p>
+            {new Date().toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: true,
+            })}
+          </p>
         </div>
       </div>
     </footer>
