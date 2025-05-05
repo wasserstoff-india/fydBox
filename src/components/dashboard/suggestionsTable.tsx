@@ -84,6 +84,7 @@ export default function SuggestionsTable() {
     fetchUserLinks();
   }, []);
 
+
   return (
     <div className="w-full container mx-auto px-4 mt-4">
       <div className="w-full flex justify-between items-baseline mb-4">
@@ -187,7 +188,7 @@ export default function SuggestionsTable() {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={5} className="h-[600px] p-0">
+                <TableCell colSpan={5} className="h-[548px] md:h-[542px] p-0">
                   <div className="h-full w-full flex flex-col items-center justify-center gap-2 text-muted-foreground">
                     <span className="text-lg font-medium">
                       No suggestions found

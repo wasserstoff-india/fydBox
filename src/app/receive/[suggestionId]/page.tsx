@@ -7,9 +7,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn, decryptFromBytes, encryptToBytes } from "@/lib/utils";
 import { getCookie } from "cookies-next";
 import { BrowserProvider, Contract } from "ethers";
-import { LoaderCircle } from "lucide-react";
+import { ArrowUpRight, LoaderCircle } from "lucide-react";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { notFound, useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -37,7 +37,7 @@ export default function ReceiveSuggestionPage() {
 
       const info = await contract.getFullLinkInfo(suggestionId);
 
-    //   console.log("Contract Info:", info[0]);
+      //   console.log("Contract Info:", info[0]);
       const encryptedTopicHex = info[1];
       const encryptedDescHex = info[2];
 
@@ -106,7 +106,33 @@ export default function ReceiveSuggestionPage() {
     }
   };
 
-  console.log(suggestion);
+  // console.log(suggestion);
+
+  if (suggestion?.isDeleted) {
+    notFound();
+  }
+  if (!suggestion?.isActive) {
+    return (
+      <div className="text-foreground max-h-[80dvh] h-[100dvh] portrait:max-h-[100dvh] portrait:h-[100dvh] w-full flex items-center justify-center bg-background prose-headings:font-heading prose-h1:md:text-5xl prose-h1:text-3xl">
+        <div className="flex flex-col items-center text-center max-w-(--breakpoint-xl) px-5">
+          <h1 className="leading-normal text-4xl font-bold">Inactive Link</h1>
+
+          <p className="leading-snug font-base sm:mt-[30px] sm:mb-[40px] my-9 2xl:text-3xl xl:text-2xl lg:text-2xl w-full md:text-2xl sm:text-xl text-xl">
+            Admin is no longer accepting feedbacks on this link.
+          </p>
+
+          <Link
+            className="flex items-center font-base gap-2.5 w-max text-main-foreground rounded-base border-2 border-border bg-main md:px-10 px-4 md:py-3 py-2 md:text-[22px] text-base shadow-shadow transition-all hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none"
+            href={"/"}
+          >
+            Create your own link
+            <ArrowUpRight className="md:size-[30px] size-5" />
+          </Link>
+        </div>
+      </div>
+    );
+  }
+  // console.log(suggestion?.isActive);
   return (
     <div className="w-full max-w-[1300px] mx-auto mt-24 px-5">
       <form

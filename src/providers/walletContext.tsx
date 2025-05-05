@@ -8,6 +8,7 @@ interface WalletContextType {
   address: string | null;
   isConnected: boolean;
   isConnecting: boolean;
+  balance: string | null;
   connectWallet: () => Promise<void>;
   disconnectWallet: () => void;
   error: string | null;
@@ -18,6 +19,7 @@ const WalletContext = createContext<WalletContextType | undefined>(undefined);
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [address, setAddress] = useState<string | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [balance, setBalance] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -65,12 +67,16 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
       const provider = new ethers.BrowserProvider(window.ethereum);
       const accounts = await provider.send("eth_requestAccounts", []);
+      const userAddress = accounts[0];
 
       if (accounts.length > 0) {
         setAddress(accounts[0]);
         localStorage.setItem("walletAddress", accounts[0]);
       }
-      router.push("/dashboard"); // Redirect to home page after connecting
+      const balanceInWei = await provider.getBalance(userAddress);
+    const balanceInEth = ethers.formatEther(balanceInWei);
+    setBalance(Number(balanceInEth).toFixed(4));
+      router.push("/dashboard"); 
       toast.success("Wallet connected successfully");
     } catch (err: any) {
       console.error("Error connecting wallet:", err);
@@ -83,6 +89,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const disconnectWallet = async () => {
 
     setAddress(null);
+    setBalance(null);
     localStorage.removeItem("walletAddress");
     if (window.ethereum) {
       try {
@@ -111,6 +118,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         address,
         isConnected: !!address,
         isConnecting,
+        balance,
         connectWallet,
         disconnectWallet,
         error,

@@ -11,7 +11,7 @@ import Image from "next/image";
 
 
 export default function Header() {
-  const { address, isConnected, connectWallet, disconnectWallet } = useWallet();
+  const { address, isConnected, connectWallet, disconnectWallet, balance } = useWallet();
   const router = useRouter();
 //   const [repo, setRepo] = useState<{ stargazers_count: number }>({ stargazers_count: 0 });
 
@@ -44,13 +44,14 @@ export default function Header() {
   useEffect(() => {
     if (isConnected && address) {
       setCookie("userAccount", address, { path: "/", maxAge: 60 * 60 * 24 });
-      router.push("/dashboard");
+      // router.push("/dashboard");
     }
   }, [isConnected, address]);
   const disconnectWalletFrom = () => {
     deleteCookie("userAccount");
     router.push("/");
   };
+  // console.log(balance)
   return (
     <nav className="fixed left-0 top-0 z-20 mx-auto flex h-[70px] w-full items-center border-b-4 border-border bg-background px-5">
       <div className="mx-auto flex w-[1300px] text-foreground max-w-full items-center justify-between">
@@ -91,6 +92,9 @@ export default function Header() {
               <div className="flex items-center space-x-2">
                 <span className="px-3 py-1 bg-main/50 text-primary-800 dark:text-primary-300 rounded-full text-sm font-medium">
                   {truncateAddress(address || "")}
+                </span>
+                <span className="px-3 py-1 bg-main/50 text-primary-800 dark:text-primary-300 rounded-full text-sm font-medium">
+                  {balance===null ? "00" : balance} ETH
                 </span>
                 <Button
                   variant="neutral"

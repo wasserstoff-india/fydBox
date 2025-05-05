@@ -33,22 +33,22 @@ export default function Create() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="flex w-full justify-between items-center mt-10 gap-8">
+      <div className="flex w-full justify-between items-center mt-10 gap-8 flex-col md:flex-row">
         <Button
           variant={"reverse"}
-          className="w-full min-h-fit text-center  bg-main/50 cursor-pointer flex flex-col items-center justify-center py-4"
+          className="w-full h-fit text-center  bg-main/50 cursor-pointer flex flex-col items-center justify-center py-4"
           onClick={() => router.push(`/dashboard/create/form?type=feedback`)}
         >
           <span className="text-xl font-medium">Create Feedback</span>
-          <span>Create Feedback link to get feedbacks from your users.</span>
+          <span className="text-wrap">Create Feedback link to get feedbacks from your users.</span>
         </Button>
         <Button
           variant={"reverse"}
-          className="w-full min-h-fit text-center  bg-main/50 cursor-pointer flex flex-col items-center justify-center py-4"
+          className="w-full h-fit text-center  bg-main/50 cursor-pointer flex flex-col items-center justify-center py-4"
           onClick={() => toast.info("Coming soon!")}
         >
           <span className="text-xl font-medium">Create Poll</span>
-          <span>Create Poll link to get votes from your users.</span>
+          <span className="text-wrap">Create Poll link to get votes from your users.</span>
         </Button>
       </div>
     </div>
