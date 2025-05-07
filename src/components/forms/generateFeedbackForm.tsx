@@ -42,8 +42,8 @@ export default function GenerateFeedbackForm() {
  
   const contractAddress = String(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
 
-  // const secretKey = String(getCookie("userAccount"));
-  const secretKey = String(process.env.NEXT_PUBLIC_SECRET_KEY);
+  const secretKey = String(getCookie("userAccount"));
+  // const secretKey = String(process.env.NEXT_PUBLIC_SECRET_KEY);
 
   const generateLink = async () => {
     if (!window.ethereum) {

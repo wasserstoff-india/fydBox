@@ -3,7 +3,7 @@ import { contractABI } from "@/abi";
 import FeedbackList from "@/components/dashboard/feedbackList";
 import { decryptFromBytes } from "@/lib/utils";
 import { getCookie } from "cookies-next";
-import { BrowserProvider, Contract } from "ethers";
+import { BrowserProvider, Contract, ethers } from "ethers";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -23,25 +23,31 @@ export default function PublicSuggestionPage() {
   >([]);
   const contractAddress = String(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
   // const secretKey = String(getCookie("userAccount"));
-  const secretKey = String(process.env.NEXT_PUBLIC_SECRET_KEY);
+  // const secretKey = String(process.env.NEXT_PUBLIC_SECRET_KEY);
   const [pending, setPending] = useState(false);
   const router = useRouter();
+  const [decryptionKeyForMsg, setDecryptionKeyForMsg] = useState("")
 
   const fetchSuggestionById = async () => {
     try {
-      if (!window.ethereum || !suggestionId) return;
+      if (!suggestionId) return;
 
-      const provider = new BrowserProvider(window.ethereum);
+      // const provider = new BrowserProvider(window.ethereum);
+       const provider = new ethers.JsonRpcProvider(
+              "https://bsc-testnet-dataseed.bnbchain.org"
+            );
       const contract = new Contract(contractAddress, contractABI, provider);
 
       const info = await contract.getFullLinkInfo(suggestionId);
       // console.log("Contract Info:", info);
+      const decryptionKey = info[0].toLowerCase();
+      setDecryptionKeyForMsg(info[0].toLowerCase())
 
       const encryptedTopicHex = info[1];
       const encryptedDescHex = info[2];
 
-      const decryptedTopic = decryptFromBytes(secretKey, encryptedTopicHex);
-      const decryptedDesc = decryptFromBytes(secretKey, encryptedDescHex);
+      const decryptedTopic = decryptFromBytes(decryptionKey, encryptedTopicHex);
+      const decryptedDesc = decryptFromBytes(decryptionKey, encryptedDescHex);
 
       // console.log("Decrypted Topic:", decryptedTopic);
 
@@ -65,21 +71,25 @@ export default function PublicSuggestionPage() {
     setLoadingSuggestions(true);
 
     try {
-      if (!window.ethereum || !suggestionId) return;
+      if (!suggestionId) return;
 
-      const provider = new BrowserProvider(window.ethereum);
+      // const provider = new BrowserProvider(window.ethereum);
+      const provider = new ethers.JsonRpcProvider(
+        "https://bsc-testnet-dataseed.bnbchain.org"
+      );
       const contract = new Contract(contractAddress, contractABI, provider);
 
       const info = await contract.getLinkFeedbacks(suggestionId);
-
       const encryptedContents = info[0];
       const feedbackSenders = info[1];
       const timestamps = info[2];
 
+      // console.log(info)
+      // console.log('>>>>>',decryptionKeyForMsg)
       const feedbacks = encryptedContents.map(
         (encryptedContent: string, index: number) => {
           const decryptedContent = decryptFromBytes(
-            secretKey,
+            decryptionKeyForMsg,
             encryptedContent
           );
           return {
@@ -87,13 +97,14 @@ export default function PublicSuggestionPage() {
             author: feedbackSenders[index],
             timestamp: new Date(
               Number(timestamps[index]) * 1000
-            ).toLocaleString(), // already formatted for UI
+            ).toLocaleString(), 
           };
         }
       );
 
       setFeedbacks(feedbacks);
     } catch (err) {
+      console.log(err);
       toast.error("Error fetching feedbacks");
     } finally {
       setLoadingSuggestions(false);
@@ -102,8 +113,13 @@ export default function PublicSuggestionPage() {
 
   useEffect(() => {
     fetchSuggestionById();
-    fetchFeedbacks();
+    // fetchFeedbacks();
   }, []);
+
+  useEffect(()=>{
+    fetchFeedbacks()
+  }, [suggestion])
+  
   // console.log(suggestionId);
 
   if (suggestion?.isPrivate) {
