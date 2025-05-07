@@ -44,7 +44,8 @@ export default function SuggestionPage() {
   } | null>(null);
 
   const contractAddress = String(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
-  const secretKey = String(getCookie("userAccount"));
+  // const secretKey = String(getCookie("userAccount"));
+  const secretKey = String(process.env.NEXT_PUBLIC_SECRET_KEY);
   const [feedbacks, setFeedbacks] = useState<
     { content: string; author: string; timestamp: string }[]
   >([]);

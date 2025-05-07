@@ -22,7 +22,8 @@ export default function PublicSuggestionPage() {
     { content: string; author: string; timestamp: string }[]
   >([]);
   const contractAddress = String(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
-  const secretKey = String(getCookie("userAccount"));
+  // const secretKey = String(getCookie("userAccount"));
+  const secretKey = String(process.env.NEXT_PUBLIC_SECRET_KEY);
   const [pending, setPending] = useState(false);
   const router = useRouter();
 

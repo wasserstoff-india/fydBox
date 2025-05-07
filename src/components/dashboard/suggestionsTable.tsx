@@ -34,7 +34,8 @@ export default function SuggestionsTable() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [loading, setLoading] = useState(true);
   const contractAddress = String(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
-  const secretKey = String(getCookie("userAccount"));
+  // const secretKey = String(getCookie("userAccount"));
+  const secretKey = String(process.env.NEXT_PUBLIC_SECRET_KEY);
 
   const fetchUserLinks = async () => {
     setLoading(true);

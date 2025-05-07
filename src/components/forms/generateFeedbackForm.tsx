@@ -35,20 +35,15 @@ export default function GenerateFeedbackForm() {
     link: string;
   } | null>(null);
 
-  // const [copied, setCopied] = useState(false);
+
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-  // const handleCopyLink = async (text: string) => {
-  //   await navigator.clipboard.writeText(text);
-  //   setCopied(true);
-  //   setTimeout(() => {
-  //     setCopied(false);
-  //   }, 2000);
-  // };
+ 
   const contractAddress = String(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
 
-  const secretKey = String(getCookie("userAccount"));
+  // const secretKey = String(getCookie("userAccount"));
+  const secretKey = String(process.env.NEXT_PUBLIC_SECRET_KEY);
 
   const generateLink = async () => {
     if (!window.ethereum) {
