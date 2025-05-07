@@ -1,4 +1,3 @@
-"use client";
 
 import {
   DropdownMenu,
@@ -8,10 +7,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
-import { BrowserProvider, Contract } from "ethers";
-import { contractABI } from "@/abi";
-import { toast } from "sonner";
+
 
 const STATUS_OPTIONS = [
   {
@@ -26,46 +22,14 @@ const STATUS_OPTIONS = [
   },
 ];
 
-const contractAddress = String(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
 
-interface ChangeStatusProps {
-  suggestion: string;
-}
 
 export default function ChangeStatus({  onChangeStatus,
   loading,}: {
     onChangeStatus: (isActive: boolean) => void;
     loading: boolean;
   }) {
-  // const [loading, setLoading] = useState(false);
 
-  // const changeStatus = async (isActive: boolean) => {
-  //   try {
-  //     if (!window.ethereum) {
-  //       toast.error("No wallet found");
-  //       return;
-  //     }
-
-  //     setLoading(true);
-
-  //     const provider = new BrowserProvider(window.ethereum);
-  //     const signer = await provider.getSigner();
-  //     const contract = new Contract(contractAddress, contractABI, signer);
-
-  //     const tx = await contract.setLinkStatus(suggestion, isActive);
-  //     await tx.wait();
-
-  //     toast.success("Status changed successfully!");
-  //   } catch (err) {
-  //     if (err instanceof Error) {
-  //       toast.error(err.message || "Error changing status");
-  //     } else {
-  //       toast.error("Unexpected error occurred");
-  //     }
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   return (
     <div>

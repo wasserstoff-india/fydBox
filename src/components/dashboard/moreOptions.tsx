@@ -1,4 +1,3 @@
-"use client";
 
 import { Ellipsis, Trash } from "lucide-react";
 import {
