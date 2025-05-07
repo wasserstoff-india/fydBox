@@ -44,7 +44,7 @@ export default function ReceiveSuggestionPage() {
 
       const info = await contract.getFullLinkInfo(suggestionId);
 
-      console.log("Contract Info:", info);
+      // console.log("Contract Info:", info);
       // console.log(secretKey === info[0].toLowerCase());
       const decryptionKey = info[0].toLowerCase();
       setEncryptionKey(info[0].toLowerCase());
@@ -60,7 +60,7 @@ export default function ReceiveSuggestionPage() {
         description: decryptedDesc,
         isActive: info[3],
         isPrivate: info[4],
-        isDeleted: Boolean(info[5]),
+        isDeleted: info[5],
       });
     } catch (err) {
       console.log("Error", err);
@@ -74,7 +74,7 @@ export default function ReceiveSuggestionPage() {
     fetchSuggestionById();
   }, []);
 
-  // console.log(suggestion);
+
 
   const submitFeedback = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -120,7 +120,7 @@ export default function ReceiveSuggestionPage() {
       router.push(`${linkId}/sent`);
       setFeedbackContent("");
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       if (err instanceof Error && err.message.includes("no such account")) {
         toast.info("No wallet detected or connected.");
       } else if (
@@ -136,7 +136,8 @@ export default function ReceiveSuggestionPage() {
     }
   };
 
-  console.log(">>>>", suggestion?.isDeleted);
+  // console.log(suggestion);
+  // console.log(">>>>", suggestion?.isDeleted);
 
   if (suggestion?.isDeleted) {
     notFound();

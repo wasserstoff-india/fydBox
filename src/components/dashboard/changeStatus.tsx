@@ -32,36 +32,40 @@ interface ChangeStatusProps {
   suggestion: string;
 }
 
-export default function ChangeStatus({ suggestion }: ChangeStatusProps) {
-  const [loading, setLoading] = useState(false);
+export default function ChangeStatus({  onChangeStatus,
+  loading,}: {
+    onChangeStatus: (isActive: boolean) => void;
+    loading: boolean;
+  }) {
+  // const [loading, setLoading] = useState(false);
 
-  const changeStatus = async (isActive: boolean) => {
-    try {
-      if (!window.ethereum) {
-        toast.error("No wallet found");
-        return;
-      }
+  // const changeStatus = async (isActive: boolean) => {
+  //   try {
+  //     if (!window.ethereum) {
+  //       toast.error("No wallet found");
+  //       return;
+  //     }
 
-      setLoading(true);
+  //     setLoading(true);
 
-      const provider = new BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      const contract = new Contract(contractAddress, contractABI, signer);
+  //     const provider = new BrowserProvider(window.ethereum);
+  //     const signer = await provider.getSigner();
+  //     const contract = new Contract(contractAddress, contractABI, signer);
 
-      const tx = await contract.setLinkStatus(suggestion, isActive);
-      await tx.wait();
+  //     const tx = await contract.setLinkStatus(suggestion, isActive);
+  //     await tx.wait();
 
-      toast.success("Status changed successfully!");
-    } catch (err) {
-      if (err instanceof Error) {
-        toast.error(err.message || "Error changing status");
-      } else {
-        toast.error("Unexpected error occurred");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     toast.success("Status changed successfully!");
+  //   } catch (err) {
+  //     if (err instanceof Error) {
+  //       toast.error(err.message || "Error changing status");
+  //     } else {
+  //       toast.error("Unexpected error occurred");
+  //     }
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div>
@@ -81,7 +85,7 @@ export default function ChangeStatus({ suggestion }: ChangeStatusProps) {
           {STATUS_OPTIONS.map((status) => (
             <DropdownMenuItem
               key={status.id}
-              onClick={() => changeStatus(status.value)}
+              onClick={() => onChangeStatus(status.value)}
               className="bg-transparent"
             >
               <span className="capitalize">{status.name}</span>

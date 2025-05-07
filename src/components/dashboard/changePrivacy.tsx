@@ -26,39 +26,77 @@ const PRIVACY_OPTIONS = [
   },
 ];
 
-const contractAddress = String(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
+// const contractAddress = String(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
 
-export default function ChangePrivacy({ suggestion }: { suggestion: string }) {
-  const [loading, setLoading] = useState(false);
+// export default function ChangePrivacy({ suggestion }: { suggestion: string }) {
+//   const [loading, setLoading] = useState(false);
 
-  const changePrivacy = async (isPrivate: boolean) => {
-    try {
-      if (!window.ethereum) {
-        toast.error("No wallet found");
-        return;
-      }
+//   const changePrivacy = async (isPrivate: boolean) => {
+//     try {
+//       if (!window.ethereum) {
+//         toast.error("No wallet found");
+//         return;
+//       }
 
-      setLoading(true);
+//       setLoading(true);
 
-      const provider = new BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      const contract = new Contract(contractAddress, contractABI, signer);
+//       const provider = new BrowserProvider(window.ethereum);
+//       const signer = await provider.getSigner();
+//       const contract = new Contract(contractAddress, contractABI, signer);
 
-      const tx = await contract.setLinkPrivacy(suggestion, isPrivate);
-      await tx.wait();
+//       const tx = await contract.setLinkPrivacy(suggestion, isPrivate);
+//       await tx.wait();
 
-      toast.success("Privacy changed successfully!");
-    } catch (err) {
-      if (err instanceof Error) {
-        toast.error(err.message || "Error changing privacy");
-      } else {
-        toast.error("Unexpected error occurred");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+//       toast.success("Privacy changed successfully!");
+//     } catch (err) {
+//       if (err instanceof Error) {
+//         toast.error(err.message || "Error changing privacy");
+//       } else {
+//         toast.error("Unexpected error occurred");
+//       }
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
+//   return (
+//     <div>
+//       <DropdownMenu>
+//         <DropdownMenuTrigger asChild>
+//           <Button
+//             variant={"reverse"}
+//             className="flex items-center gap-2 justify-center outline-none bg-main/50"
+//             disabled={loading}
+//           >
+//             {loading ? "Updating..." : "Change Privacy"}
+//             <ChevronDown className="w-4 h-auto" />
+//           </Button>
+//         </DropdownMenuTrigger>
+
+//         <DropdownMenuContent className="w-[156px] bg-main/50">
+//           {PRIVACY_OPTIONS.map((privacy) => (
+//             <DropdownMenuItem
+//               key={privacy.id}
+//               onClick={() => changePrivacy(privacy.value)}
+//               className="bg-transparent"
+//             >
+//               <span className="capitalize">{privacy.name}</span>
+//             </DropdownMenuItem>
+//           ))}
+//         </DropdownMenuContent>
+//       </DropdownMenu>
+//     </div>
+//   );
+// }
+
+
+export default function ChangePrivacy({
+  onChangePrivacy,
+  loading,
+}: {
+  onChangePrivacy: (isPrivate: boolean) => void;
+  loading: boolean;
+}) {
   return (
     <div>
       <DropdownMenu>
@@ -77,7 +115,7 @@ export default function ChangePrivacy({ suggestion }: { suggestion: string }) {
           {PRIVACY_OPTIONS.map((privacy) => (
             <DropdownMenuItem
               key={privacy.id}
-              onClick={() => changePrivacy(privacy.value)}
+              onClick={() => onChangePrivacy(privacy.value)}
               className="bg-transparent"
             >
               <span className="capitalize">{privacy.name}</span>

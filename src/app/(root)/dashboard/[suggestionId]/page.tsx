@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { cn, decryptFromBytes } from "@/lib/utils";
 import { BrowserProvider, Contract } from "ethers";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { getCookie } from "cookies-next";
@@ -28,18 +28,23 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import CopyButton from "@/components/general/copyButton";
 import FeedbackList from "@/components/dashboard/feedbackList";
-import ReloadButton from "@/components/general/reloadButton";
+// import ReloadButton from "@/components/general/reloadButton";
 import ChangePrivacy from "@/components/dashboard/changePrivacy";
 import ChangeStatus from "@/components/dashboard/changeStatus";
 import MoreOptions from "@/components/dashboard/moreOptions";
 
 export default function SuggestionPage() {
   const { suggestionId } = useParams();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isChangingPrivacy, setIsChangingPrivacy] = useState(false);
+  const [isChangingStatus, setIsChangingStatus] = useState(false);
+  const router = useRouter();
   const [suggestion, setSuggestion] = useState<{
     topic: string;
     description: string;
     isActive: boolean;
     isPrivate: boolean;
+    isDeleted: boolean;
     feedbackCount: number;
   } | null>(null);
 
@@ -52,8 +57,6 @@ export default function SuggestionPage() {
   const [loadingFeedbacks, setLoadingFeedbacks] = useState(true);
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
-
 
   const fetchSuggestionById = async () => {
     try {
@@ -75,7 +78,8 @@ export default function SuggestionPage() {
         description: decryptedDesc,
         isActive: info[3],
         isPrivate: info[4],
-        feedbackCount: Number(info[5]),
+        isDeleted: info[5],
+        feedbackCount: Number(info[6]),
       });
     } catch (err) {
       if (err instanceof Error) toast.error("Error fetching suggestion info.");
@@ -124,6 +128,96 @@ export default function SuggestionPage() {
     fetchSuggestionById();
     fetchFeedbacks();
   }, []);
+
+  useEffect(() => {
+    fetchSuggestionById();
+  }, [suggestion]);
+
+  const handleChangePrivacy = async (isPrivate: boolean) => {
+    try {
+      if (!window.ethereum) {
+        toast.error("No wallet found");
+        return;
+      }
+
+      setIsChangingPrivacy(true);
+
+      const provider = new BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = new Contract(contractAddress, contractABI, signer);
+
+      const tx = await contract.setLinkPrivacy(suggestionId, isPrivate);
+      await tx.wait();
+
+      toast.success("Privacy changed successfully!");
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error("Error changing privacy");
+      } else {
+        toast.error("Unexpected error occurred");
+      }
+    } finally {
+      setIsChangingPrivacy(false);
+    }
+  };
+
+  const handleChangeStatus = async (isActive: boolean) => {
+    try {
+      if (!window.ethereum) {
+        toast.error("No wallet found");
+        return;
+      }
+
+      setIsChangingStatus(true);
+
+      const provider = new BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = new Contract(contractAddress, contractABI, signer);
+
+      const tx = await contract.setLinkStatus(suggestionId, isActive);
+      await tx.wait();
+
+      toast.success("Status changed successfully!");
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error("Error changing status");
+      } else {
+        toast.error("Unexpected error occurred");
+      }
+    } finally {
+      setIsChangingStatus(false);
+    }
+  };
+
+  const handleDeleteLink = async () => {
+    try {
+      if (!window.ethereum) {
+        toast.error("No wallet found");
+        return;
+      }
+
+      setIsDeleting(true);
+
+      const provider = new BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = new Contract(contractAddress, contractABI, signer);
+
+      const tx = await contract.deleteLink(suggestionId);
+      await tx.wait();
+
+      toast.success("Link deleted successfully!");
+      router.push("/dashboard");
+    } catch (err) {
+      console.log(err);
+      if (err instanceof Error) {
+        toast.error("Error Deleting Suggestion");
+      } else {
+        toast.error("Unexpected error occurred");
+      }
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   return (
     <div className="w-full max-w-[1300px] mx-auto mt-24 px-5">
@@ -174,9 +268,17 @@ export default function SuggestionPage() {
 
         {suggestion && (
           <div className="flex items-center gap-2">
-            <ChangePrivacy suggestion={String(suggestionId)} />
-            <ChangeStatus suggestion={String(suggestionId)} />
-            <MoreOptions suggestion={String(suggestionId)} />
+            {/* <ChangePrivacy suggestion={String(suggestionId)} /> */}
+            <ChangePrivacy
+              onChangePrivacy={handleChangePrivacy}
+              loading={isChangingPrivacy}
+            />
+
+            <ChangeStatus
+              onChangeStatus={handleChangeStatus}
+              loading={isChangingStatus}
+            />
+            <MoreOptions onDelete={handleDeleteLink} loading={isDeleting} />
           </div>
         )}
       </div>
@@ -188,17 +290,17 @@ export default function SuggestionPage() {
       {/* Link Section */}
       {suggestion && (
         // <div className="flex w-full justify-between items-center my-5 px-4">
-          <div className="flex justify-start items-center gap-2 px-4 my-5">
-            <Link
-              href={`${baseUrl}${suggestionId}` || "#"}
-              target="_blank"
-              className="text-main-foreground text-sm truncate max-w-[30ch] md:max-w-[50ch] bg-main/50 p-2 rounded"
-            >
-              {suggestion.isActive
-                ? `${baseUrl}receive/${suggestionId}`
-                : "The link has been deactivated!"}
-            </Link>
-            <CopyButton textToCopy={`${baseUrl}receive/${suggestionId}`} />
+        <div className="flex justify-start items-center gap-2 px-4 my-5">
+          <Link
+            href={`${baseUrl}${suggestionId}` || "#"}
+            target="_blank"
+            className="text-main-foreground text-sm truncate max-w-[30ch] md:max-w-[50ch] bg-main/50 p-2 rounded"
+          >
+            {suggestion.isActive
+              ? `${baseUrl}receive/${suggestionId}`
+              : "The link has been deactivated!"}
+          </Link>
+          <CopyButton textToCopy={`${baseUrl}receive/${suggestionId}`} />
           {/* </div> */}
           {/* <ReloadButton /> */}
         </div>

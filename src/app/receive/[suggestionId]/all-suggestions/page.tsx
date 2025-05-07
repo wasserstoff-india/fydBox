@@ -104,7 +104,7 @@ export default function PublicSuggestionPage() {
 
       setFeedbacks(feedbacks);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.error("Error fetching feedbacks");
     } finally {
       setLoadingSuggestions(false);

@@ -3,14 +3,14 @@ import Star20 from "../stars/s20";
 
 const reviews = [
   {
-    fullName: "Alice Johnson",
-    jobTitle: "Product Manager at DevHub",
+    fullName: "Amit Patel",
+    jobTitle: "Founder at UATU",
     pfp: { src: "https://i.pravatar.cc/150?img=1" },
     review:
       "This tool helped us collect completely anonymous feedback during our internal sprint. The privacy-first approach really made people open up.",
   },
   {
-    fullName: "Raj Mehta",
+    fullName: "Rakky",
     jobTitle: "Blockchain Developer",
     pfp: { src: "https://i.pravatar.cc/150?img=2" },
     review:

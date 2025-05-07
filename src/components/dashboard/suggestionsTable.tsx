@@ -18,6 +18,7 @@ import { contractABI } from "@/abi";
 import { useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 import { cn, decryptFromBytes } from "@/lib/utils";
+import { toast } from "sonner";
 
 type Suggestion = {
   id: string;
@@ -72,11 +73,12 @@ export default function SuggestionsTable() {
 
       // Filter out deleted suggestions
       const activeSuggestions = suggestions.filter((s) => !s.isDeleted);
-      console.log(suggestions)
+      // console.log(suggestions)
 
       setSuggestions(activeSuggestions);
     } catch (err) {
-      console.error("Error fetching links:", err);
+      // console.log(err)
+      toast.error("Error fetching data!");
     } finally {
       setLoading(false);
     }
