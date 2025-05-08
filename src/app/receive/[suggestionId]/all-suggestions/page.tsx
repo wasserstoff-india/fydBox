@@ -104,8 +104,10 @@ export default function PublicSuggestionPage() {
 
       setFeedbacks(feedbacks);
     } catch (err) {
-      // console.log(err);
-      toast.error("Error fetching feedbacks");
+      console.log(err);
+     if(err instanceof Error){
+      toast.error("Error fetching feedbacks!");
+     }
     } finally {
       setLoadingSuggestions(false);
     }
@@ -127,7 +129,7 @@ export default function PublicSuggestionPage() {
   }
   return (
     <div className="w-full max-w-[1300px] mx-auto mt-24 px-5">
-      <div className="text-xl font-semibold mt-6 sm:mt-8 space-y-2 max-w-sm">
+      <div className="text-xl font-semibold mt-6 sm:mt-8 space-y-2 max-w-sm md:max-w-md">
         <h1>All Suggestions For Topic : </h1>
         <p>
           <span className="text-brand font-bold italic text-orange-600">

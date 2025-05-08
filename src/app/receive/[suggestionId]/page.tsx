@@ -90,7 +90,7 @@ export default function ReceiveSuggestionPage() {
     }
 
     if (feedbackContent.trim().length > 400) {
-      toast.info("Suggestion must be less than 400 characters.");
+      toast.info("Suggestion must be less than 700 characters.");
       return;
     }
 

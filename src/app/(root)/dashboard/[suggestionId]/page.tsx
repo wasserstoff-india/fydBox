@@ -283,7 +283,7 @@ export default function SuggestionPage() {
         )}
       </div>
 
-      <div className="text-sm text-wrap w-full px-4">
+      <div className="text-sm text-wrap w-full px-4  max-w-sm md:max-w-md">
         {suggestion?.description || <Skeleton className="h-16 w-full" />}
       </div>
 

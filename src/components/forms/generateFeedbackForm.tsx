@@ -56,7 +56,7 @@ export default function GenerateFeedbackForm() {
       return;
     }
     if (!topic || topic.trim().length > 30) {
-      toast.info("Topic must be less than 30 characters.");
+      toast.info("Topic must be less than 100 characters.");
       return;
     }
 
@@ -65,7 +65,7 @@ export default function GenerateFeedbackForm() {
       return;
     }
     if (!desc || desc.trim().length > 300) {
-      toast.info("Description must be less than 300 characters.");
+      toast.info("Description must be less than 600 characters.");
       return;
     }
 

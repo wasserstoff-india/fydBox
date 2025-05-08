@@ -78,7 +78,9 @@ export default function SuggestionsTable() {
       setSuggestions(activeSuggestions);
     } catch (err) {
       // console.log(err)
-      toast.error("Error fetching data!");
+      if(err instanceof Error){
+        toast.error("Error fetching data!");
+      }
     } finally {
       setLoading(false);
     }

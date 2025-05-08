@@ -17,11 +17,11 @@ const reviews = [
       "Love the integration with MetaMask. It’s smooth and lets me create feedback sessions without any hassle.",
   },
   {
-    fullName: "Sophia Kim",
-    jobTitle: "Team Lead at OpenCollective",
+    fullName: "Krishna Nishad",
+    jobTitle: "DevOps Engineer",
     pfp: { src: "https://i.pravatar.cc/150?img=3" },
     review:
-      "We ran a team poll for roadmap planning and the anonymity led to much more honest inputs than usual. Impressive UX too!",
+      "A good tool to collect honest feedbacks and suggestions. A must-have tool for any team.",
   },
   {
     fullName: "Liam Wright",
@@ -71,7 +71,9 @@ export default function Community() {
         className="absolute bottom-[120px] lg:block hidden -right-[125px] -z-10"
       />
       <div className="mx-auto w-[1300px] max-w-full py-16 lg:py-[100px]">
-        <h2 className="text-center font-heading not-prose 2xl:text-5xl xl:text-5xl md:text-4xl sm:text-3xl text-[22px] text-main-foreground mb-12">Loved by the community</h2>
+        <h2 className="text-center font-heading not-prose 2xl:text-5xl xl:text-5xl md:text-4xl sm:text-3xl text-[22px] text-main-foreground mb-12">
+          Loved by the community
+        </h2>
         <div className="grid-cols-1 grid lg:grid-cols-3 gap-0 lg:gap-8">
           {[
             [reviews[0], reviews[1]],
