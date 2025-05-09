@@ -1,4 +1,5 @@
 import GenerateFeedbackForm from "@/components/forms/generateFeedbackForm";
+import GeneratePollForm from "@/components/forms/generatePollForm";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -38,6 +39,7 @@ export default async function CreatePage({
         </BreadcrumbList>
       </Breadcrumb>
       {type === "feedback" && <GenerateFeedbackForm />}
+      {type === "poll" && <GeneratePollForm />}
     </div>
   );
 }

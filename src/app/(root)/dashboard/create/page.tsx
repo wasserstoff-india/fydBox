@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 
 import { useRouter } from "next/navigation";
 
-import { toast } from "sonner";
 
 export default function Create() {
   const router = useRouter();
@@ -40,15 +39,19 @@ export default function Create() {
           onClick={() => router.push(`/dashboard/create/form?type=feedback`)}
         >
           <span className="text-xl font-medium">Create Feedback</span>
-          <span className="text-wrap">Create Feedback link to get feedbacks from your users.</span>
+          <span className="text-wrap">
+            Create Feedback link to get feedbacks from your users.
+          </span>
         </Button>
         <Button
           variant={"reverse"}
           className="w-full h-fit text-center  bg-main/50 cursor-pointer flex flex-col items-center justify-center py-4"
-          onClick={() => toast.info("Coming soon!")}
+          onClick={() => router.push(`/dashboard/create/form?type=poll`)}
         >
           <span className="text-xl font-medium">Create Poll</span>
-          <span className="text-wrap">Create Poll link to get votes from your users.</span>
+          <span className="text-wrap">
+            Create Poll link to get votes from your users.
+          </span>
         </Button>
       </div>
     </div>
