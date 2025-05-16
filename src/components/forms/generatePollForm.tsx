@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { LoaderCircle, PlusCircle, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -12,7 +11,6 @@ import { getCookie } from "cookies-next";
 import { encryptToBytes } from "@/lib/utils";
 import { Card } from "../ui/card";
 import CopyButton from "../general/copyButton";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 declare global {
   interface Window {
@@ -216,28 +214,6 @@ export default function GeneratePollForm() {
               ))}
             </div>
           </div>
-
-          {/* <div className="flex flex-col items-start gap-2 w-full">
-            <Label htmlFor="privacy" className="text-lg font-medium">
-              Choose who can see the poll results
-            </Label>
-            <RadioGroup
-              id="privacy"
-              name="privacy"
-              defaultValue="private"
-              value={privacy}
-              onValueChange={setPrivacy}
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="private" id="r1" />
-                <Label htmlFor="r1">Only Me</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="public" id="r2" />
-                <Label htmlFor="r2">Anyone with the poll link</Label>
-              </div>
-            </RadioGroup>
-          </div> */}
 
           <div className="w-full">
             <Button
